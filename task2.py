@@ -1,16 +1,25 @@
-salary = 5000
-spend = 6000
-months = 10
-increase = 0.03
+import csv
+import json
+from collections import OrderedDict
 
-total_spend = 0
 
-for month in range(months):
-    total_spend += spend
-    spend *= (1 + increase)
+INPUT_FILENAME = "input.csv"
+OUTPUT_FILENAME = "output. json"
 
-needed_capital = total_spend - (salary * months)
-needed_capital = max(0, needed_capital)
-needed_capital = round(needed_capital)
 
-print(f"Подушка безопасности, чтобы протянуть {months} месяцев без долгов: {needed_capital}")
+def task() -> None:
+    with open (INPUT_FILENAME, "r", newline='', encoding='utf-8') as f: # TODO считать содержимое csv файла
+                reader = csv.DictReader(f, delimiter=",")
+                data_ = []
+                for row in reader:
+                    data_.append(OrderedDict (row))
+                    with open(OUTPUT_FILENAME,"w") as f:
+                        json.dump (data_, f, indent=4, ensure_ascii=False)
+    json_output = json. dumps (OUTPUT_FILENAME, indent=4, ensure_ascii=False)
+if __name__ == '__main__':
+    # Нужно для проверки
+    task()
+
+    with open (OUTPUT_FILENAME) as output_f:
+          for line in output_f:
+             print (line, end="")

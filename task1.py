@@ -1,13 +1,9 @@
-from http.cookiejar import month
+import json
+def task() -> float:
+    jsonf = 'input.json'
+    with open(jsonf, 'r') as f:
+        json_data = json. load (f)
+    totals = sum ([item["score"] * item["weight"] for item in json_data])
+    return round (totals,3)
 
-money_capital = 20000
-salary = 5000
-spend = 6000
-increase = 0.05
-months= 0
-
-while money_capital >= spend:
-  money_capital += salary - spend
-  spend += spend * increase
-  months += 1
-print("Количество месяцев, которое можно протянуть без долгов:", months)
+print (task())
