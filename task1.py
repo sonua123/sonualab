@@ -1,125 +1,94 @@
-class Book:
-    """Базовый класс книги."""
-
-    def __init__(self, name: str, author: str):
-        self._name = name  # защищенный атрибут
-        self._author = author  # защищенный атрибут
-
-    @property
-    def name(self) -> str:
-        """Возвращает название книги."""
-        return self._name
-
-    @property
-    def author(self) -> str:
-        """Возвращает автора книги."""
-        return self._author
-
-    def __str__(self) -> str:
-        return f"Книга: {self.name}, Автор: {self.author}"
-
-    def __repr__(self) -> str:
-        return f"{self.__class__.__name__}(name={self.name!r}, author={self.author!r})"
+from abc import ABC, abstractmethod
 
 
-class PaperBook(Book):
-    """Дочерний класс бумажной книги."""
+class Animal(ABC):
+    """
+    Базовый класс, представляющий животное.
+    """
 
-    def __init__(self, name: str, author: str, pages: int):
-        super().__init__(name, author)
-        self.pages = pages  # Используем сеттер с проверками
+    def __init__(self, name: str, age: int) -> None:
+        """
+        Конструктор класса Animal.
 
-    @property
-    def pages(self) -> int:
-        """Возвращает количество страниц в книге."""
-        return self._pages
-
-    @pages.setter
-    def pages(self, pages: int) -> None:
-        """Устанавливает количество страниц в книге с проверкой."""
-        if not isinstance(pages, int):
-            raise TypeError("Количество страниц должно быть типа int")
-        if pages <= 0:
-            raise ValueError("Количество страниц должно быть больше нуля")
-        self._pages = pages
+        :param name: Имя животного
+        :param age: Возраст животного
+        """
+        self._name = name  # Закрытый атрибут, так как имя не должно изменяться напрямую
+        self.age = age
 
     def __str__(self) -> str:
-        return f"Бумажная книга: {self.name}, Автор: {self.author}, Страниц: {self.pages}"
+        """
+        Магический метод для строкового представления объекта.
+        """
+        return f"{self.__class__.__name__} по имени {self._name}, возраст: {self.age}"
 
     def __repr__(self) -> str:
-        return f"{self.__class__.__name__}(name={self.name!r}, author={self.author!r}, pages={self.pages!r})"
+        """
+        Магический метод для технического представления объекта.
+        """
+        return f"{self.__class__.__name__}('{self._name}', {self.age})"
+
+    @abstractmethod
+    def make_sound(self) -> str:
+        """
+        Абстрактный метод, который должны реализовать все дочерние классы.
+        """
+        pass
 
 
-class AudioBook(Book):
-    """Дочерний класс аудиокниги."""
+class Dog(Animal):
+    """
+    Класс, представляющий собаку.
+    """
 
-    def __init__(self, name: str, author: str, duration: float):
-        super().__init__(name, author)
-        self.duration = duration  # Используем сеттер с проверками
+    def __init__(self, name: str, age: int, breed: str) -> None:
+        """
+        Конструктор класса Dog. Расширяет базовый класс Animal.
 
-    @property
-    def duration(self) -> float:
-        """Возвращает продолжительность книги."""
-        return self._durationclass
-        Book: """Базовый класс книги."""
+        :param name: Имя собаки
+        :param age: Возраст собаки
+        :param breed: Порода собаки
+        """
+        super().__init__(name, age)
+        self.breed = breed
 
-    def __init__(self, name: str, author: str):
-        self._name = name  # защищенный атрибут
-        self._author = author  # защищенный атрибут
-
-    @property
-    def name(self) -> str:
-        """Возвращает название книги."""
-        return self._name
-
-    @property
-    def author(self) -> str:
-        """Возвращает автора книги."""
-        return self._author
+    def make_sound(self) -> str:
+        """
+        Реализация абстрактного метода. Собака лает.
+        """
+        return "Гав-гав!"
 
     def __str__(self) -> str:
-        return f"Книга: {self.name}, Автор: {self.author}"
+        """
+        Переопределение метода str для добавления информации о породе собаки.
+        """
+        return f"Собака породы {self.breed} по имени {self._name}, возраст: {self.age}"
 
-    def __repr__(self) -> str:
-        return f"{self.__class__.__name__}(name={self.name!r}, author={self.author!r})"
 
+class Cat(Animal):
+    """
+    Класс, представляющий кошку.
+    """
 
-class PaperBook(Book):
-    """Дочерний класс бумажной книги."""
+    def __init__(self, name: str, age: int, color: str) -> None:
+        """
+        Конструктор класса Cat. Расширяет базовый класс Animal.
 
-    def __init__(self, name: str, author: str, pages: int):
-        super().__init__(name, author)
-        self.pages = pages  # Используем сеттер с проверками
+        :param name: Имя кошки
+        :param age: Возраст кошки
+        :param color: Цвет шерсти кошки
+        """
+        super().__init__(name, age)
+        self.color = color
 
-    @property
-    def pages(self) -> int:
-        """Возвращает количество страниц в книге."""
-        return self._pages
-
-    @pages.setter
-    def pages(self, pages: int) -> None:
-        """Устанавливает количество страниц в книге с проверкой."""
-        if not isinstance(pages, int):
-            raise TypeError("Количество страниц должно быть типа int")
-        if pages <= 0:
-            raise ValueError("Количество страниц должно быть больше нуля")
-        self._pages = pages
+    def make_sound(self) -> str:
+        """
+        Реализация абстрактного метода. Кошка мяукает.
+        """
+        return "Мяу!"
 
     def __str__(self) -> str:
-        return f"Бумажная книга: {self.name}, Автор: {self.author}, Страниц: {self.pages}"
-
-    def __repr__(self) -> str:
-        return f"{self.__class__.__name__}(name={self.name!r}, author={self.author!r}, pages={self.pages!r})"
-
-
-class AudioBook(Book):
-    """Дочерний класс аудиокниги."""
-
-    def __init__(self, name: str, author: str, duration: float):
-        super().__init__(name, author)
-        self.duration = duration  # Используем сеттер с проверками
-
-    @property
-    def duration(self) -> float:
-        """Возвращает продолжительность книги."""
-        return self._duration
+        """
+        Переопределение метода str для добавления информации о цвете кошки.
+        """
+        return f"Кошка {self.color} цвета по имени {self._name}, возраст: {self.age}"
